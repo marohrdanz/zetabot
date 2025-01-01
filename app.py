@@ -19,7 +19,7 @@ def main():
             with st.chat_message(message["role"]):
                 st.markdown(message["content"])
     if user_msg := st.chat_input("Type your message here..."):
-        st.chat_mnesage("user").markdown(user_msg)
+        st.chat_message("user").markdown(user_msg)
 
         with st.chat_message("assistant"):
             with st.spinner("Eva is thinking..."):

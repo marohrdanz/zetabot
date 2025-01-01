@@ -53,7 +53,7 @@ class ChatBot:
             })
 
             follow_up_response = self.generate_message(
-                    messages=sefl.session_state.messages,
+                    messages=self.session_state.messages,
                     max_tokens=2048
             )
 
