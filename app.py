@@ -3,7 +3,7 @@ from chatbot import ChatBot
 from config import TASK_SPECIFIC_INSTRUCTIONS
  
 def main():
-    st.title("Chat with Eva, Acme Insurance Company's assistant")
+    st.title("Chat with ZetaBot, a statistics assistant")
 
     if "messages" not in st.session_state:
         st.session_state.messages = [
@@ -12,7 +12,7 @@ def main():
         ]
     chatbot = ChatBot(st.session_state)
 
-    # Display userand assistant messages skipping the first two
+    # Display user and assistant messages skipping the first two
     for message in st.session_state.messages[2:]:
         # ignore tool use blocks
         if isinstance(message["content"], str):
@@ -22,7 +22,7 @@ def main():
         st.chat_message("user").markdown(user_msg)
 
         with st.chat_message("assistant"):
-            with st.spinner("Eva is thinking..."):
+            with st.spinner("ZetaBot is thinking..."):
                 response_placeholder = st.empty()
                 full_response = chatbot.process_user_input(user_msg)
                 response_placeholder.markdown(full_response)

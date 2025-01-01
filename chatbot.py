@@ -1,6 +1,20 @@
 from anthropic import Anthropic
-from config import IDENTITY, TOOLS, MODEL, get_quote
+from config import IDENTITY, TOOLS, MODEL, get_sum, get_mean
 from dotenv import load_dotenv
+import logging
+
+
+## configure logging
+UNDERLINE = '\033[4m'
+END = '\033[0m'
+YELLOW = '\033[93m'
+FORMAT = f"{UNDERLINE}%(asctime)s{END} - {UNDERLINE}%(name)s{END} - {YELLOW}%(levelname)s{END} - %(message)s"
+logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+logger = logging.getLogger(__name__)
+logging.getLogger('httpcore').setLevel(logging.ERROR)
+logging.getLogger('httpx').setLevel(logging.ERROR)
+logging.getLogger('anthropic').setLevel(logging.ERROR)
+
 
 load_dotenv()
 
@@ -34,6 +48,7 @@ class ChatBot:
             return f"An error occurred: {response_message['error']}"
 
         if response_message.content[-1].type == "tool_use":
+            logger.debug("++++++++++++++++++ TOOL USE ++++++++++++++++++")
             tool_use = response_message.content[-1]
             func_name = tool_use.name
             func_params = tool_use.input
@@ -78,9 +93,14 @@ class ChatBot:
 
 
     def handle_tool_use(self, func_name, func_params):
-        if func_name == "get_quote":
-            premium = get_quote(**func_params)
-            return f"Quote generated: ${premium:.2f} per month."
+        if func_name == "get_sum":
+            logger.debug(f"Calling tool: get_sum, with params: {func_params}")
+            sum_value = get_sum(**func_params)
+            return f"The sum of {func_params['num1']} and {func_params['num2']} is {sum_value}"
+        if func_name == "get_mean":
+            logger.debug(f"Calling tool: get_mean, with params: {func_params}")
+            mean_value = get_mean(**func_params)
+            return f"The mean is {mean_value}"
         raise Exception("An unexpected tool was used")
 
 
