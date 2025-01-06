@@ -1,27 +1,15 @@
 from anthropic import Anthropic
-from config import IDENTITY, TOOLS, MODEL, get_sum, get_mean
+from config import IDENTITY, TOOLS, MODEL, get_sum, get_mean, list_col_names
 from dotenv import load_dotenv
-import logging
-
-
-## configure logging
-UNDERLINE = '\033[4m'
-END = '\033[0m'
-YELLOW = '\033[93m'
-FORMAT = f"{UNDERLINE}%(asctime)s{END} - {UNDERLINE}%(name)s{END} - {YELLOW}%(levelname)s{END} - %(message)s"
-logging.basicConfig(level=logging.DEBUG, format=FORMAT)
-logger = logging.getLogger(__name__)
-logging.getLogger('httpcore').setLevel(logging.ERROR)
-logging.getLogger('httpx').setLevel(logging.ERROR)
-logging.getLogger('anthropic').setLevel(logging.ERROR)
-
+from zetalogger import logger
 
 load_dotenv()
 
 class ChatBot:
-    def __init__(self, session_state):
+    def __init__(self, session_state, uploaded_file):
         self.anthropic = Anthropic()
         self.session_state = session_state
+        self.uploaded_file = uploaded_file # upload user data, but don't send to AI.
 
     def generate_message(self, messages, max_tokens):
         try:
@@ -101,6 +89,10 @@ class ChatBot:
             logger.debug(f"Calling tool: get_mean, with params: {func_params}")
             mean_value = get_mean(**func_params)
             return f"The mean is {mean_value}"
+        if func_name == "list_col_names":
+            logger.debug("Calling tool: list_col_names")
+            col_names = list_col_names(self.uploaded_file)
+            return f"Columns: {col_names}"
         raise Exception("An unexpected tool was used")
 
 

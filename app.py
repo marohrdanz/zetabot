@@ -1,16 +1,22 @@
 import streamlit as st
 from chatbot import ChatBot
 from config import TASK_SPECIFIC_INSTRUCTIONS
+from zetalogger import logger
  
 def main():
     st.title("Chat with ZetaBot, a statistics assistant")
+
+    # add a file uploader so user can upload their own data
+    uploaded_file = st.file_uploader("Choose a file")
+    if uploaded_file is not None:
+        logger.debug(f"Uploaded file: {uploaded_file.name}")
 
     if "messages" not in st.session_state:
         st.session_state.messages = [
             {"role": "user", "content": TASK_SPECIFIC_INSTRUCTIONS},
             {"role": "assistant", "content": "Understood"}
         ]
-    chatbot = ChatBot(st.session_state)
+    chatbot = ChatBot(st.session_state, uploaded_file)
 
     # Display user and assistant messages skipping the first two
     for message in st.session_state.messages[2:]:
