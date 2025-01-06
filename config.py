@@ -59,7 +59,7 @@ TOOLS = [
   }
 },
 {
-  "name": "list_col_names",
+  "name": "get_col_names",
   "description": "List column names of .csv file",
   "input_schema": {
     "type": "object",
@@ -97,7 +97,7 @@ def get_mean(numbers):
     ret_value = sum(numbers) / len(numbers)
     return ret_value
 
-def list_col_names(uploaded_file):
+def get_col_names(uploaded_file):
     """Returns list of column names in file"""
     df = pd.read_csv(uploaded_file)
     columns = df.columns.tolist()
