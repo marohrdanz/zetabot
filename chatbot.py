@@ -1,5 +1,5 @@
 from anthropic import Anthropic
-from config import IDENTITY, TOOLS, MODEL, get_sum, get_mean, get_col_names
+from config import IDENTITY, TOOLS, MODEL, get_sum, get_mean, get_col_names, get_mean_of_column
 from dotenv import load_dotenv
 from zetalogger import logger
 
@@ -93,6 +93,10 @@ class ChatBot:
             logger.debug("Calling tool: get_col_names")
             col_names = get_col_names(self.uploaded_file)
             return f"Columns: {col_names}"
+        if func_name == "get_mean_of_column":
+            logger.debug(f"Calling tool: get_mean_of_column, with params: {func_params}")
+            mean_of_column = get_mean_of_column(self.uploaded_file, **func_params)
+            return f"The mean of column {func_params['column_name']} is {mean_of_column}"
         raise Exception("An unexpected tool was used")
 
 
