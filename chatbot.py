@@ -29,7 +29,7 @@ class ChatBot:
           
         response_message = self.generate_message(
                 messages=self.session_state.messages,
-                max_tokens=2048
+                max_tokens=1024
         )
 
         if "error" in response_message:
@@ -57,7 +57,7 @@ class ChatBot:
 
             follow_up_response = self.generate_message(
                     messages=self.session_state.messages,
-                    max_tokens=2048
+                    max_tokens=1024
             )
 
             if "error" in follow_up_response:
