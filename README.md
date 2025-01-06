@@ -1,11 +1,19 @@
 # ZetaBot
 
-This is chatbot is the result of following
-[Anthropic's customer support chatbot tutorial](https://docs.anthropic.com/en/docs/about-claude/use-case-guides/customer-support-chat)
-and modifying it slightly to be a very basic statistics chatbot.
+ZetaBot was created as a learning exercise to understand how to use the
+Anthropic API.
 
-The only goal here was for me to understand the API and how to write basic
-tools for it.
+In particular, I wanted to understand how to write a tool that
+lets users upload a file, and do some basic analysis on the file, but does not
+send the file data to the AI--the tools do the analysis, not the AI.
+
+## Current features of ZetaBot:
+
+- Upload a data file
+- Get list of column names in file (from a tool)
+- Get mean of a column (from a tool)
+
+As this is just a toy, there's no error handling, tests, etc.
 
 ## Quickstart
 
@@ -17,3 +25,8 @@ tools for it.
 
 Note: An Anthropic API key is required to run this chatbot.
 
+## Reference
+
+This is chatbot is the result of following
+[Anthropic's customer support chatbot tutorial](https://docs.anthropic.com/en/docs/about-claude/use-case-guides/customer-support-chat)
+and modifying it slightly to be a very basic statistics chatbot.
